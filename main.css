@@ -1,0 +1,60 @@
+body {
+  background-image: url("img/hip-square.png");
+  color: white;
+}
+
+#form-area {
+  background-color: dodgerblue;
+  width: 85%;
+  padding-bottom: 25px;
+  padding-top: 25px;
+}
+
+.center {
+  margin: auto;
+}
+
+.error {
+  width: 70%;
+  margin-top: 10px;
+  display: none;
+}
+
+.user-form {
+  width: 75%;
+}
+
+.user-form input {
+  margin-bottom: 5px;
+}
+
+.user-card {
+  background-color: darkgrey;
+  width: 65%;
+}
+
+.user-list {
+  list-style: none;
+}
+
+.displayUser {
+  text-align: center;  
+}
+
+.displayUser img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 50%;
+}
+
+.displayUser h4 {
+  text-transform: capitalize;
+}
+
+.displayUser a {
+  color: white;
+}
+
+.displayUser a:clicked {
+  color: white;
+}
