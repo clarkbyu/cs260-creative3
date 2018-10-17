@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>User Directory</title>
+    <title>Music of the Years</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,24 +24,34 @@
 </head>
 
 <body ng-app='app' ng-controller='mainCtrl'>
-
-    <div class="container mt-5 center text-center rounded shadow" id="form-area">
-        <h1>Add User</h1>
-        <form name='userForm' ng-submit='addNew(userForm)' class="user-form center">
-            <input class="form-control" placeholder='Name' ng-model='userForm.name' />
-            <input class="form-control" placeholder='Email Address' ng-model='userForm.email' />
-            <input class="form-control" placeholder='Image Url' ng-model='userForm.url' />
-            <button class="btn btn-light mt-2" type='submit'>Add New</button>
-        </form>
-        <div class="alert alert-danger error center"><strong>Invalid!</strong> Please enter at least an email address or name.</div>
-    </div>
-
+    <header>
+        <div class="container text-center pt-5 pb-5" id="site-header">
+            <h1>Music of the Years</h1>
+        </div>
+    </header>
     
-    <div class='user-list container text-center center mt-4'>
-        <div ng-repeat='user in users' class="user-card shadow center pt-3 pb-3 mb-3">
-            <user user='user' />
+    <div class="year-list container d-flex flex-wrap justify-content-center">
+        <div ng-repeat="decade in timeline" class="year rounded shadow text-center conatiner mt-4 mb-4 mr-2 ml-2" id="year-{{decade.year}}" ng-click="getMusic(decade)">{{decade.year}}</div>
+    </div>
+    
+    <div class="container song-list d-flex flex-wrap justify-content-center">
+        <div ng-repeat="track in tracks" class="song shadow" style='background-image: url("http://direct.rhapsody.com/imageserver/v2/albums/{{track.albumId}}/images/300x300.jpg")' ng-mouseover="showInfo((track.id).substring(4))" ng-mouseleave="hideInfo((track.id).substring(4))">
+            <div class="song-info" ng-click="togglePlayback((track.id).substring(4))">
+                <h2>{{track.name}}</h2>
+                <audio src="{{track.previewURL}}" type="audio/mpeg" preload="auto" id="{{(track.id).substring(4)}}"></audio>
+            </div>
         </div>
     </div>
+    
+    <div class="current-year rounded text-center container mt-4 mb-4">
+        <h1>{{currentYear}}</h1>
+    </div>
+    
+    <footer>
+        <div class="container text-center">
+            <span id="footerText">© 2018 by Clark Brown  |  <a href="https://napster.com/" target="_blank">Powered by Napster™</a></span>
+        </div>
+    </footer>
         
 </body>
 

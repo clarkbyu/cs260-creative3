@@ -1,13 +1,53 @@
+html {
+    position: relative;
+    min-height: 100%;
+    min-width: 340px;
+}
+
 body {
-  background-image: url("img/hip-square.png");
+  background-image: url("img/bg.png");
+  background-color: #333333;
+  margin-bottom: 75px;
+}
+
+header {
+  display: block;
+  background-color: #303030;
+  color: white;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  /* Set the fixed height of the footer here */
+  line-height: 60px;
+  /* Vertically center the text there */
+  background-color: #303030;
+  color: white;
+}
+
+footer a:visited {
+  color: white;
+}
+
+footer a:hover {
+  color: #F0F0F0;
+}
+
+footer a {
   color: white;
 }
 
 #form-area {
-  background-color: dodgerblue;
-  width: 85%;
+  /* background-image: url("img/gold.jpg"); */
+  background-color: black;
+  max-width: 50%;
+  min-width: 500px;
   padding-bottom: 25px;
   padding-top: 25px;
+  color: white;
 }
 
 .center {
@@ -20,41 +60,72 @@ body {
   display: none;
 }
 
-.user-form {
-  width: 75%;
+.year {
+  color: white;
+  font-size: 20px;
+  background-color: black;
+  width: 144px;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.user-form input {
+.active-year {
+  background-color: #303030;
+}
+
+.year:hover {
+  cursor: pointer;
+  background-color: #333333;
+}
+
+.year-form {
+  width: 30%;
+}
+
+.year-form input {
   margin-bottom: 5px;
 }
 
-.user-card {
-  background-color: darkgrey;
-  width: 65%;
-}
-
-.user-list {
-  list-style: none;
-}
-
-.displayUser {
-  text-align: center;  
-}
-
-.displayUser img {
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 50%;
-}
-
-.displayUser h4 {
-  text-transform: capitalize;
-}
-
-.displayUser a {
+.current-year {
+  max-width: 30%;
   color: white;
+  background-color: black;
+  display: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.displayUser a:clicked {
+.song-list {
+  display: none;
+}
+
+.song {
+  width: 300px !important;
+  height: 300px !important;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: block;
+}
+
+.song-info {
   color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.song-info:hover {
+  cursor: pointer;
+}
+
+.active-song {
+  border-radius: 50px;
+}
+
+audio {
+  display: none;
 }
