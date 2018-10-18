@@ -24,27 +24,33 @@
 </head>
 
 <body ng-app='app' ng-controller='mainCtrl'>
-    <header>
+    <header class="shadow">
         <div class="container text-center pt-5 pb-5" id="site-header">
-            <h1>Music of the Years</h1>
+            <h1>♪ Music of the Years ♪</h1>
         </div>
     </header>
     
+    <div class="container guide pt-4 pb-4 mt-5 mb-5 text-center center rounded shadow">
+        <h3>Pick a year below to sample music from that time period.</h3>
+    </div>
+    
     <div class="year-list container d-flex flex-wrap justify-content-center">
-        <div ng-repeat="decade in timeline" class="year rounded shadow text-center conatiner mt-4 mb-4 mr-2 ml-2" id="year-{{decade.year}}" ng-click="getMusic(decade)">{{decade.year}}</div>
+        <div ng-repeat="decade in timeline" class="year rounded shadow text-center conatiner mt-4 mb-4 mr-2 ml-2" id="year-{{decade.year}}" ng-click="toggleYear(decade.year)">{{decade.year}}</div>
     </div>
     
     <div class="container song-list d-flex flex-wrap justify-content-center">
-        <div ng-repeat="track in tracks" class="song shadow" style='background-image: url("http://direct.rhapsody.com/imageserver/v2/albums/{{track.albumId}}/images/300x300.jpg")' ng-mouseover="showInfo((track.id).substring(4))" ng-mouseleave="hideInfo((track.id).substring(4))">
-            <div class="song-info" ng-click="togglePlayback((track.id).substring(4))">
-                <h2>{{track.name}}</h2>
+        <div ng-repeat="track in tracks" class="song shadow-lg" style='background-image: url("http://direct.rhapsody.com/imageserver/v2/albums/{{track.albumId}}/images/300x300.jpg")' ng-mouseover="showInfo((track.id).substring(4))" ng-mouseleave="hideInfo((track.id).substring(4))">
+            <div class="song-info container text-center" ng-click="togglePlayback((track.id).substring(4))">
+                <h3 class="pt-2">{{track.name}}</h3>
+                <h4>{{track.artistName}}</h4>
                 <audio src="{{track.previewURL}}" type="audio/mpeg" preload="auto" id="{{(track.id).substring(4)}}"></audio>
+                <img src="img/control/play.png" class="audio-control center pt-3" id="control-{{(track.id).substring(4)}}">
             </div>
         </div>
     </div>
     
-    <div class="current-year rounded text-center container mt-4 mb-4">
-        <h1>{{currentYear}}</h1>
+    <div class="container display-count rounded text-center mt-2 mb-2">
+        <button class="btn btn-dark" ng-click="displayMore()">Show {{trackDisplayLimit + 3}} Tracks</button>
     </div>
     
     <footer>

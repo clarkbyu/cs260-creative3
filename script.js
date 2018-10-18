@@ -1,28 +1,30 @@
 var key = "MmFmNmNiYzEtZTkzOS00ODZjLTg2ZmMtZTVlNTk3MGE3ZDAw";
-var trackLimit = 6;
+var trackLoadLimit = 15;
 
 angular.module('app', [])
     .controller('mainCtrl', mainCtrl)
-    .directive('song', songDirective)
     .config(function($sceDelegateProvider) {$sceDelegateProvider.resourceUrlWhitelist(['**']);});
 
 function mainCtrl($scope, $http) {
 
     $scope.currentYear = 0;
-    $scope.currentTrack = '';
+    $scope.currentTrack = 0;
     $scope.url = '';
     $scope.tracks = [];
     $scope.isPlaying = false;
+    $scope.trackDisplayLimit = 6;
     
     $scope.getMusic = function(year) {
         $(".song-list").fadeOut(250);
-        console.log(year.year);
+        $(".display-count").fadeOut(250);
+        
+        $scope.currentTrack = 0;
         
         if($scope.currentYear > 0) {
             $("#year-"+$scope.currentYear).toggleClass("active-year");
         }
         
-        $scope.currentYear = year.year;
+        $scope.currentYear = year;
         $("#year-"+$scope.currentYear).toggleClass("active-year");
         
         
@@ -33,40 +35,59 @@ function mainCtrl($scope, $http) {
         }
         
         $scope.url = "https://api.napster.com/v2.2/playlists/pp." + $scope.yearObj.pid
-            + "/tracks?apikey=" + key + "&limit=" + trackLimit;
+            + "/tracks?apikey=" + key + "&limit=" + $scope.trackDisplayLimit;
             
-        console.log($scope.url);
         
         $http.get($scope.url).then(function(response) {
-                console.log(response);
                 $scope.tracks = response.data.tracks;
-                console.log($scope.tracks);
                 $(".song-list").fadeIn(250);
+                if (trackLoadLimit != $scope.trackDisplayLimit) {
+                    $(".display-count").fadeIn(250);
+                }
         });
+    };
+    
+    $scope.toggleYear = function(year) {
+        if($scope.currentYear == 0) {
+            $(".guide").fadeOut(250);
+        }
         
+        if(year != $scope.currentYear) {
+            $scope.getMusic(year);
+        }
     };
     
     $scope.togglePlayback = function(id) {
         var audio = "#"+id;
+        var audioControl = "#control-" + id;
         var currentAudio = "#"+$scope.currentTrack;
+        var currentAudioControl = "#control-"+$scope.currentTrack;
         
         if ($scope.isPlaying) {
             if($scope.currentTrack == id) {
                 $(audio).trigger("pause");
+                $(audioControl).attr("src","img/control/play.png");
                 $scope.isPlaying = false; 
             }
             else {
                 $(currentAudio).trigger("pause");
+                $(currentAudioControl).attr("src","img/control/play.png");
                 $(currentAudio).parent().parent().toggleClass("active-song");
                 $(currentAudio).parent().fadeOut(250);
                 $(audio).trigger("play");
+                $(audioControl).attr("src","img/control/pause.png");
                 $(audio).parent().parent().toggleClass("active-song");
                 $scope.isPlaying = true;
                 $scope.currentTrack = id;
             }
         }
         else {
+            if($scope.currentTrack > 0) {
+                $(currentAudio).parent().parent().toggleClass("active-song");
+                $(currentAudio).parent().fadeOut(250);
+            }
             $(audio).trigger("play");
+            $(audioControl).attr("src","img/control/pause.png");
             $scope.isPlaying = true;
             $scope.currentTrack = id;
             $(audio).parent().parent().toggleClass("active-song");
@@ -83,6 +104,16 @@ function mainCtrl($scope, $http) {
         }
     };
     
+    $scope.displayMore = function() {
+        if (trackLoadLimit - $scope.trackDisplayLimit <= 3) {
+            $scope.trackDisplayLimit = trackLoadLimit;
+        }
+        else {
+            $scope.trackDisplayLimit += 3;
+        }
+        $scope.getMusic($scope.currentYear);
+    };
+    
     $scope.timeline = [
         {year: 1920, pid: 139422201},
         {year: 1930, pid: 139422201},
@@ -97,26 +128,4 @@ function mainCtrl($scope, $http) {
         {year: 2010, pid: 139422201},
         {year: 2015, pid: 139422201}
     ];
-}
-
-function songDirective() {
-    return {
-        scope: {
-            sid: '='
-        },
-        restrict: 'E',
-        replace: 'true',
-        template: (
-            '<div class="song">' +
-                '<img src="http://direct.rhapsody.com/imageserver/v2/albums/{{track.albumId}}/images/300x300.jpg' +
-                '<h2>{{track.name}}</h2>' +
-            '</div>'
-        ),
-        link: link
-    };
-
-    function link(scope) {
-        
-    }
-
 }
