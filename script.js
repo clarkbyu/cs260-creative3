@@ -1,5 +1,5 @@
 var key = "MmFmNmNiYzEtZTkzOS00ODZjLTg2ZmMtZTVlNTk3MGE3ZDAw";
-var trackLoadLimit = 24;
+var trackLoadLimit = 100;
 
 angular.module('app', [])
     .controller('mainCtrl', mainCtrl)
@@ -14,7 +14,7 @@ function mainCtrl($scope, $http) {
     $scope.tracks = [];
     $scope.isPlaying = false;
     $scope.trackDisplayCount = 6;
-    $scope.trackDisplayLimit = 15;
+    $scope.trackDisplayLimit = 24;
     
     $scope.getMusic = function(year) {
         $(".song-list").hide();
@@ -36,7 +36,7 @@ function mainCtrl($scope, $http) {
             }
         }
         
-        $scope.url = "https://api.napster.com/v2.2/playlists/pp." + $scope.yearObj.pid
+        $scope.url = "https://api.napster.com/v2.2/playlists/mp." + $scope.yearObj.pid
             + "/tracks?apikey=" + key + "&limit=" + trackLoadLimit;
             
         
@@ -121,32 +121,27 @@ function mainCtrl($scope, $http) {
     };
     
     $scope.timeline = [
-        {year: 1920, pid: 139422201},
-        {year: 1930, pid: 139422201},
-        {year: 1940, pid: 139422201},
-        {year: 1950, pid: 139422201},
-        {year: 1960, pid: 139422201},
-        {year: 1970, pid: 139422201},
-        {year: 1980, pid: 139422201},
-        {year: 1990, pid: 139422201},
-        {year: 2000, pid: 139422201},
-        {year: 2005, pid: 139422201},
-        {year: 2010, pid: 139422201},
-        {year: 2015, pid: 139422201}
+        {year: 1920, pid: 254498892, size: 35},
+        {year: 1930, pid: 201897571, size: 107},
+        {year: 1940, pid: 210677431, size: 98},
+        {year: 1950, pid: 248785868, size: 64},
+        {year: 1960, pid: 257281142, size: 40},
+        {year: 1970, pid: 255948171, size: 63},
+        {year: 1980, pid: 215324568, size: 102},
+        {year: 1990, pid: 228981107, size: 224},
+        {year: 2000, pid: 247934545, size: 226},
+        {year: 2005, pid: 215171966, size: 90},
+        {year: 2010, pid: 225890652, size: 130},
+        {year: 2015, pid: 209069255, size: 67}
     ];
 }
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
+  while (0 != currentIndex) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
