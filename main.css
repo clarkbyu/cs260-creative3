@@ -18,8 +18,9 @@ body {
 header {
   display: block;
   background-color: #303030;
-  /*background-image: url("img/music.png");*/
+  background-image: url("img/terrazzo.png");
   color: white;
+  font-family: impact;
 }
 
 

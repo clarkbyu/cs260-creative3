@@ -1,5 +1,5 @@
 var key = "MmFmNmNiYzEtZTkzOS00ODZjLTg2ZmMtZTVlNTk3MGE3ZDAw";
-var trackLoadLimit = 15;
+var trackLoadLimit = 24;
 
 angular.module('app', [])
     .controller('mainCtrl', mainCtrl)
@@ -10,13 +10,15 @@ function mainCtrl($scope, $http) {
     $scope.currentYear = 0;
     $scope.currentTrack = 0;
     $scope.url = '';
+    $scope.playlist = [];
     $scope.tracks = [];
     $scope.isPlaying = false;
-    $scope.trackDisplayLimit = 6;
+    $scope.trackDisplayCount = 6;
+    $scope.trackDisplayLimit = 15;
     
     $scope.getMusic = function(year) {
-        $(".song-list").fadeOut(250);
-        $(".display-count").fadeOut(250);
+        $(".song-list").hide();
+        $(".display-count").hide();
         
         $scope.currentTrack = 0;
         
@@ -35,15 +37,18 @@ function mainCtrl($scope, $http) {
         }
         
         $scope.url = "https://api.napster.com/v2.2/playlists/pp." + $scope.yearObj.pid
-            + "/tracks?apikey=" + key + "&limit=" + $scope.trackDisplayLimit;
+            + "/tracks?apikey=" + key + "&limit=" + trackLoadLimit;
             
         
         $http.get($scope.url).then(function(response) {
-                $scope.tracks = response.data.tracks;
-                $(".song-list").fadeIn(250);
-                if (trackLoadLimit != $scope.trackDisplayLimit) {
-                    $(".display-count").fadeIn(250);
-                }
+            
+            $scope.playlist = response.data.tracks;
+            $scope.tracks = shuffle($scope.playlist);
+            $(".song-list").fadeIn(1500);
+            
+            if ($scope.trackDisplayLimit != $scope.trackDisplayCount) {
+                $(".display-count").fadeIn(250);
+            }
         });
     };
     
@@ -105,13 +110,14 @@ function mainCtrl($scope, $http) {
     };
     
     $scope.displayMore = function() {
-        if (trackLoadLimit - $scope.trackDisplayLimit <= 3) {
-            $scope.trackDisplayLimit = trackLoadLimit;
+        if ($scope.trackDisplayLimit - $scope.trackDisplayCount <= 3) {
+            $scope.trackDisplayCount = $scope.trackDisplayLimit;
+            $(".display-count").fadeOut(150);
         }
         else {
-            $scope.trackDisplayLimit += 3;
+            $scope.trackDisplayCount += 3;
         }
-        $scope.getMusic($scope.currentYear);
+        //$scope.getMusic($scope.currentYear);
     };
     
     $scope.timeline = [
@@ -128,4 +134,23 @@ function mainCtrl($scope, $http) {
         {year: 2010, pid: 139422201},
         {year: 2015, pid: 139422201}
     ];
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
