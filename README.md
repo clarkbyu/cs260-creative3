@@ -1,5 +1,7 @@
 # Play it by Year ♪
 
-Built using the Napster Developer API.
+Built using AngularJS, Bootstrap CSS, and the Napster Developer API.
 
-By Clark Brown for BYU CS 260 Creative Project #3
+[See it in action.](https://students.cs.byu.edu/~cebrown/playitbyyear/)
+
+By Clark Brown for BYU CS 260 Creative Project #3, 2018
